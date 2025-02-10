@@ -452,12 +452,7 @@
             body: formData,
           })
             .then((data) => {
-              if (data.success) {
-                console.log(data.success);
-                document.querySelector(".w-form-done").style.display = "block"; // Show success message
-              } else if (!data.success) {
-                document.querySelector(".w-form-fail").style.display = "block"; // Show error message
-              }
+              document.querySelector(".w-form-done").style.display = "block"; // Show error message
             })
             .catch((error) => {
               document.querySelector(".w-form-done").style.display = "block"; // Show error message
