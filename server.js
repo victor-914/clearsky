@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
@@ -7,15 +8,13 @@ const { Readable } = require("stream");
 const multer = require("multer");
 const axios = require("axios");
 
-// CLOUDINARY_KEY=177123464136985
-// CLOUDINARY_NAME=dxixcpnl4
-// CLOUDINARY_SECRET=D96Yw6aWtHqMRt80KxZwlz1TLJ8
+
 
 // Configure Cloudinary
 cloudinary.config({
-  cloud_name: "dxixcpnl4",
-  api_key: "177123464136985",
-  api_secret: "D96Yw6aWtHqMRt80KxZwlz1TLJ8",
+  cloud_name: process.env.CN,
+  api_key: process.env.CAK,
+  api_secret: process.env.CAS,
 });
 
 // Configure multer for memory storage
@@ -30,8 +29,8 @@ app.use(bodyParser.json());
 const transporter = nodemailer.createTransport({
   service: "gmail", // Use your email service (e.g., Gmail, Outlook)
   auth: {
-    user: "office@clearskyservices.co",
-    pass: "ynnrkhfkxrlwljja",
+    user: process.env.GM_USER,
+    pass: process.env.GM_PASS,
   },
 });
 
@@ -189,7 +188,7 @@ app.post("/site_visit", async (req, res) => {
     // Handle file uploads to Cloudinary
 
     const formData = req.body;
-    console.log("🚀 ~ formData:", formData);
+    // console.log("🚀 ~ formData:", formData);
 
     // Generate HTML email content
     const emailContent = `
@@ -322,7 +321,7 @@ app.post("/site_visit", async (req, res) => {
 
     // Send email
     transporter.sendMail(mailOptions, (error, info) => {
-      console.log("🚀 ~ transporter.sendMail ~ info:", info);
+      // console.log("🚀 ~ transporter.sendMail ~ info:", info);
       if (error) {
         console.log("🚀 ~ transporter.sendMail ~ error:", error);
         console.error("Error sending email:", error);
