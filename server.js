@@ -104,7 +104,7 @@ app.post(
       const formData = req.body;
       // console.log("🚀 ~ formData:", formData)
       const files = req.files;
-      console.log("🚀 ~ files:", files);
+      // console.log("🚀 ~ files:", files);
 
       if (!files || !formData || files.length === 0) {
         return "No file";
@@ -164,7 +164,7 @@ app.post(
       // Send email
       if (cloudinaryUrls.length !== 0) {
         transporter.sendMail(mailOptions, (error, info) => {
-          console.log("🚀 ~ transporter.sendMail ~ info:", info);
+          // console.log("🚀 ~ transporter.sendMail ~ info:", info);
           if (error) {
             console.log("🚀 ~ transporter.sendMail ~ error:", error);
             console.error("Error sending email:", error);
