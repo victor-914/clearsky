@@ -6,23 +6,23 @@
 >
   <head>
     <meta charset="utf-8" />
-    <title>Site visit | ClearSky</title>
+    <title>Contractor Availability | ClearSky</title>
     <meta
-      content="The ultimate solution for construction and architecture websites template. Say goodbye to customization challenges. Elevate your business instantly. Simplify, streamline, succeed."
+      content="Check contractor availability for specific dates"
       name="description"
     />
-    <meta content="Contact | ClearSky" property="og:title" />
+    <meta content="Contractor Availability | ClearSky" property="og:title" />
     <meta
-      content="The ultimate solution for construction and architecture websites template. Say goodbye to customization challenges. Elevate your business instantly. Simplify, streamline, succeed."
+      content="Check contractor availability for specific dates"
       property="og:description"
     />
     <meta
       content="https://uploads-ssl.webflow.com/660cf2f9f59e57412bf6abcb/662a3e2e3fe45b0475d477c4_open-graph.jpg"
       property="og:image"
     />
-    <meta content="Contact | ClearSky" property="twitter:title" />
+    <meta content="Contractor Availability | ClearSky" property="twitter:title" />
     <meta
-      content="The ultimate solution for construction and architecture websites template. Say goodbye to customization challenges. Elevate your business instantly. Simplify, streamline, succeed."
+      content="Check contractor availability for specific dates"
       property="twitter:description"
     />
     <meta
@@ -67,9 +67,52 @@
     </script>
     <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon" />
     <link href="images/webclip.png" rel="apple-touch-icon" />
+    <style>
+      .fullscreen-success {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #4CAF50;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+        display: none;
+      }
+      .fullscreen-success h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+      .fullscreen-success p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin-bottom: 30px;
+      }
+      .fullscreen-success .close-btn {
+        padding: 12px 24px;
+        background-color: white;
+        color: #4CAF50;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+    </style>
   </head>
-
   <body>
+    <div class="fullscreen-success" id="fullscreen-success">
+      <h2>Thank You!</h2>
+      <p>Your availability request has been successfully submitted. We'll contact you shortly to confirm the details.</p>
+      <button class="close-btn" onclick="closeSuccess()">Close</button>
+    </div>
+
     <div
       data-animation="default"
       data-collapse="medium"
@@ -118,35 +161,19 @@
               class="nav-link w-nav-link"
               >Projects</a
             >
-            <a
-              href="contact.html"
-              aria-current="page"
-              class="nav-link w-nav-link w--current"
-              >Contact</a
-            >
+            <a href="contact.html" class="nav-link w-nav-link">Contact</a>
             <a
               href="survey.html"
               aria-current="page"
               class="nav-link w-nav-link w--current"
-              >Survey</a
-            >
-            <a
-              href="site_visit.html"
-              aria-current="page"
-              class="nav-link w-nav-link w--current"
-              >Site Visit</a
+              >Availability</a
             >
           </nav>
           <div
             id="w-node-bc339dbc-2a59-0847-4b81-c02c2ccf17d1-2ccf17b1"
             class="nav-right nav-right-hide"
           >
-            <a
-              href="contact.html"
-              aria-current="page"
-              class="button-black w-button w--current"
-              >Get started</a
-            >
+            <a href="contact.html" class="button-black w-button">Get started</a>
           </div>
           <div
             id="w-node-bc339dbc-2a59-0847-4b81-c02c2ccf17dd-2ccf17b1"
@@ -160,210 +187,122 @@
     <section class="hero-inner">
       <div class="w-layout-blockcontainer container w-container">
         <div class="hero-inner-content">
-          <h1 class="hero-inner-title no-margin">Experience Questionnaire</h1>
+          <h1 class="hero-inner-title no-margin">Contractor Availability</h1>
         </div>
       </div>
     </section>
-
-    <section class="contact-section section-spacing-sm">
+    <section
+      data-w-id="bf7bca3f-592a-c35e-ab3b-a14ce81d4540"
+      style="opacity: 0"
+      class="contact-section section-spacing-sm"
+    >
       <div class="w-layout-blockcontainer container w-container">
-        <div class="contact-form-wrap">
-          <div class="contact-form w-form">
-            <form
-              id="site-visit-form"
-              name="site-visit-form"
-              action="https://clearskyservices.co/submit-form/submit-experience-form"
-              data-name="Site Visit Form"
-              method="post"
-            >
-              <input
-                type="hidden"
-                name="subject"
-                value="Site Visit Questionnaire"
-              />
-
-              <div class="contact-form-item">
-                <h4 style="text-decoration: underline; padding: 10px">
-                  SITE VISIT AVAILABILITY
-                </h4>
-                <br />
-                <div>
-                  <label for="Email">Email *</label>
-                  <input
-                    class="form-input w-input"
-                    maxlength="256"
-                    name="Email"
-                    data-name="Email"
-                    placeholder="Enter your email"
-                    type="email"
-                    id="Email"
-                    required=""
-                  />
+        <div class="grid-contact">
+          <div class="contact-form-wrap">
+            <div class="contact-form w-form">
+              <form
+                id="availability-form"
+                name="availability-form"
+                data-name="Availability Form"
+                method="post"
+                data-wf-page-id="669bf7cbefb525246c096468"
+              >
+                <div class="contact-form-item">
+                  <div id="date-display" style="margin-bottom: 20px; font-size: 18px;">
+                    <!-- Date will be displayed here -->
+                  </div>
+                  <div>
+                    <label for="company-name">Company Name</label>
+                    <input
+                      type="text"
+                      id="company-name"
+                      name="company"
+                      class="form-input w-input"
+                      placeholder="Enter your company name"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label for="email">Email Address</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      class="form-input w-input"
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label>Will the contractor be available on this date?</label>
+                    <div style="margin: 15px 0;">
+                      <input type="radio" id="available-yes" name="availability" value="yes" required>
+                      <label for="available-yes" style="margin-left: 8px;">Yes</label>
+                    </div>
+                    <div style="margin: 15px 0;">
+                      <input type="radio" id="available-no" name="availability" value="no">
+                      <label for="available-no" style="margin-left: 8px;">No</label>
+                    </div>
+                  </div>
+                  <div>
+                    <label for="notes">Notes (Optional)</label>
+                    <textarea
+                      id="notes"
+                      name="notes"
+                      class="form-input form-textarea w-input"
+                      placeholder="Add any additional notes about availability"
+                      style="min-height: 100px;"
+                    ></textarea>
+                  </div>
                 </div>
-                <div>
-                  <label for="Company-Name">Company Name *</label>
-                  <input
-                    class="form-input w-input"
-                    maxlength="256"
-                    name="Company-Name"
-                    data-name="Company Name"
-                    placeholder="Enter your company name"
-                    type="text"
-                    id="Company-Name"
-                    required=""
-                  />
-                </div>
-                <div>
-                  <label for="Available-For-Site-Visit"
-                    >Will you be available for a site visit? *</label
-                  >
-                  <select
-                    class="form-input w-input"
-                    name="Available-For-Site-Visit"
-                    data-name="Available For Site Visit"
-                    id="Available-For-Site-Visit"
-                    required=""
-                  >
-                    <option value="">Select option</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-                <div>
-                  <label for="Availability-Details"
-                    >If yes, please provide your availability details:</label
-                  >
-                  <textarea
-                    class="form-input w-input"
-                    maxlength="5000"
-                    name="Availability-Details"
-                    data-name="Availability Details"
-                    placeholder="Provide dates/times you're available for a site visit"
-                    id="Availability-Details"
-                  ></textarea>
-                </div>
-              </div>
-              <div class="form-navigation">
                 <input
                   type="submit"
                   data-wait="Please wait..."
                   class="button-primary w-button"
-                  value="Submit"
+                  value="Submit Availability"
                 />
+              </form>
+              <div class="success-message w-form-done">
+                <div>Thank you! The availability status has been recorded.</div>
               </div>
-            </form>
-            <div class="success-message w-form-done">
-              <div>Thank you! Your submission has been received!</div>
+              <div class="error-message w-form-fail">
+                <div>Oops! Something went wrong while submitting the form.</div>
+              </div>
             </div>
-            <div class="error-message w-form-fail">
-              <div>Oops! Something went wrong while submitting the form.</div>
-            </div>
+          </div>
+          <div
+            id="w-node-bf7bca3f-592a-c35e-ab3b-a14ce81d456b-6c096468"
+            class="contact-image-split-wrap"
+          >
+            <img
+              src="images/about-image-01.jpg"
+              loading="eager"
+              sizes="(max-width: 479px) 94vw, (max-width: 767px) 95vw, (max-width: 991px) 94vw, (max-width: 1279px) 46vw, 45vw"
+              srcset="
+                images/about-image-01-p-500.jpg 500w,
+                images/about-image-01.jpg       770w
+              "
+              alt="About image 01"
+              class="contact-image-split"
+            />
           </div>
         </div>
       </div>
+      <img
+        src="images/669bf7cbefb525246c096414_pattern-03-copy.png"
+        loading="eager"
+        sizes="(max-width: 2196px) 100vw, 2196px"
+        srcset="
+          images/669bf7cbefb525246c096414_pattern-03-copy-p-500.png   500w,
+          images/669bf7cbefb525246c096414_pattern-03-copy-p-800.png   800w,
+          images/669bf7cbefb525246c096414_pattern-03-copy-p-1080.png 1080w,
+          images/669bf7cbefb525246c096414_pattern-03-copy-p-1600.png 1600w,
+          images/669bf7cbefb525246c096414_pattern-03-copy.png        2196w
+        "
+        alt=""
+        class="contact-section-decoration-right"
+      />
     </section>
-    <style>
-      /* Multi-step form styles */
-      .form-progress {
-        margin-bottom: 30px;
-        text-align: center;
-      }
-
-      .progress-bar {
-        display: flex;
-        justify-content: space-between;
-        max-width: 500px;
-        margin: 0 auto 20px;
-      }
-
-      .progress-step {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: #f0f0f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        color: #999;
-        position: relative;
-      }
-
-      .progress-step.active {
-        background-color: #007bff;
-        color: white;
-      }
-
-      .progress-step:not(:last-child):after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 100%;
-        width: 60px;
-        height: 2px;
-        background-color: #f0f0f0;
-      }
-
-      .progress-step.active:not(:last-child):after {
-        background-color: #007bff;
-      }
-
-      .form-step {
-        display: none;
-      }
-
-      .form-step.active {
-        display: block;
-      }
-
-      .form-navigation {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 30px;
-      }
-
-      .button-secondary {
-        background-color: #6c757d;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-
-      .button-secondary:hover {
-        background-color: #5a6268;
-      }
-
-      .optional-section {
-        margin-top: 20px;
-      }
-
-      .button-add-person,
-      .button-add-project {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-bottom: 15px;
-      }
-
-      .button-add-person:hover,
-      .button-add-project:hover {
-        background-color: #218838;
-      }
-
-      .additional-person,
-      .additional-project {
-        margin-top: 20px;
-        padding: 15px;
-        border: 1px dashed #ddd;
-        border-radius: 4px;
-      }
-    </style>
-
     <footer class="footer">
       <div
         data-w-id="8d06ee4f-9622-5ddb-74a3-ca23ffa33526"
@@ -489,14 +428,8 @@
                 <a href="index.html" class="footer-link">Home </a>
                 <a href="about.html" class="footer-link">About</a>
                 <a href="project.html" class="footer-link">Project</a>
-                <a
-                  href="contact.html"
-                  aria-current="page"
-                  class="footer-link w--current"
-                  >Contact</a
-                >
+                <a href="contact.html" class="footer-link">Contact</a>
                 <a href="service.html" class="footer-link">Services</a>
-                <a href="survey.html" class="footer-link">Survey</a>
               </div>
               <div class="grid-footer-link-inner"></div>
             </div>
@@ -523,33 +456,86 @@
     ></script>
     <script src="js/webflow.js" type="text/javascript"></script>
     <script>
-      document
-        .getElementById("experience-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault(); // Prevent the default form submission
+      function closeSuccess() {
+        document.getElementById('fullscreen-success').style.display = 'none';
+      }
 
-          const formData = new FormData(this);
-          console.log("🚀 ~ formData:", formData);
+      // Function to get query parameters from URL
+      function getQueryParam(param) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(param);
+      }
 
-          fetch("http://localhost:3000/submit-experience-form", {
-            method: "POST",
-            body: formData,
-          })
-            .then((response) => {
-              console.log("🚀 ~ .then ~ response:", response);
-              console.log("🚀 ~ .then ~ response:", response);
-              if (response.ok) {
-                document.querySelector(".w-form-done").style.display = "block"; // Show success message
-                // this.reset(); // Reset the form
-              } else {
-                throw new Error("Network response was not ok");
+      // Get date from URL query parameter
+      const dateParam = getQueryParam('date');
+      const displayDate = dateParam ? new Date(dateParam) : new Date();
+      
+      // Format date for display
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = displayDate.toLocaleDateString(undefined, options);
+      
+      // Display the date in the form
+      document.getElementById('date-display').innerHTML = `
+          <strong>Date in question:</strong> ${formattedDate}
+          <input type="hidden" name="date" value="${displayDate.toISOString().split('T')[0]}">
+      `;
+
+      // Handle form submission
+      document.getElementById('availability-form').addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          // Get form elements
+          const form = e.target;
+          const formData = {
+              date: form.querySelector('input[name="date"]').value,
+              company: form.querySelector('input[name="company"]').value,
+              email: form.querySelector('input[name="email"]').value,
+              available: form.querySelector('input[name="availability"]:checked').value,
+              notes: form.querySelector('textarea[name="notes"]').value,
+              submittedAt: new Date().toISOString()
+          };
+
+          // Show loading state
+          const submitBtn = form.querySelector('input[type="submit"]');
+          const originalBtnText = submitBtn.value;
+          submitBtn.value = 'Submitting...';
+          submitBtn.disabled = true;
+
+          try {
+              // Send data to local API
+              const response = await fetch('http://localhost:3000/site_visit', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(formData)
+              });
+
+              if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
               }
-            })
-            .catch((error) => {
-              console.log("🚀 ~ error:", error);
-              document.querySelector(".w-form-fail").style.display = "block"; // Show error message
-            });
-        });
+
+              const result = await response.json();
+              console.log('Success:', result);
+              
+              // Show fullscreen success message
+              document.getElementById('fullscreen-success').style.display = 'flex';
+              document.querySelector('.w-form-done').style.display = 'none';
+              document.querySelector('.w-form-fail').style.display = 'none';
+              
+              // Optional: Reset form after successful submission
+              form.reset();
+              
+          } catch (error) {
+              console.error('Error:', error);
+              document.querySelector('.w-form-fail').style.display = 'block';
+              document.querySelector('.w-form-done').style.display = 'none';
+          } finally {
+              // Reset button state
+              submitBtn.value = originalBtnText;
+              submitBtn.disabled = false;
+          }
+      });
     </script>
   </body>
 </html>

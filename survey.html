@@ -171,6 +171,7 @@
               action="http://localhost:3000/submit-form/submit-partner-registration"
               data-name="Partner Registration Form"
               method="post"
+              novalidate
               enctype="multipart/form-data"
             >
               <!-- Progress Bar -->
@@ -267,7 +268,6 @@
                       type="email"
                       id="Contact-Email"
                       required
-
                     />
                   </div>
                   <div>
@@ -825,11 +825,14 @@
                   >
                     Back
                   </button>
-                  <input
+                  <!-- <input
                     type="submit"
                     class="button-primary w-button"
                     value="Submit Registration"
-                  />
+                  /> -->
+                  <button type="submit" class="button-primary w-button" id="submit-btn">
+                    <span id="submit-text">Submit Registration</span>
+                  </button>
                 </div>
               </div>
             </form>
@@ -845,6 +848,22 @@
     </section>
 
     <style>
+      /* Simple loading spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
       /* Multi-step form styles */
       .form-progress {
         margin-bottom: 30px;
@@ -923,7 +942,7 @@
 
       .button-add-person,
       .button-add-project {
-        background-color: #28a745;
+        background-color: #0092E2;
         color: white;
         border: none;
         padding: 8px 15px;
@@ -934,7 +953,7 @@
 
       .button-add-person:hover,
       .button-add-project:hover {
-        background-color: #218838;
+        background-color: #0092d1;
       }
 
       .additional-person,
@@ -1104,7 +1123,21 @@
       crossorigin="anonymous"
     ></script>
     <script src="js/webflow.js" type="text/javascript"></script>
+  <script>
+    document.getElementById('partner-registration-form').addEventListener('submit', function() {
+  const btn = document.getElementById('submit-btn');
+  const btnText = document.getElementById('submit-text');
   
+  // Create and show spinner
+  const spinner = document.createElement('span');
+  spinner.className = 'loading-spinner';
+  btn.insertBefore(spinner, btnText);
+  
+  // Change text and disable button
+  btnText.textContent = ' Submitting...';
+  btn.disabled = true;
+});
+  </script>
    <script>
       // Multi-step form functionality
       document.addEventListener("DOMContentLoaded", function () {

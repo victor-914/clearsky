@@ -87,8 +87,6 @@ app.post("/submit-form", upload.none(), (req, res) => {
   });
 });
 
-
-
 app.post(
   "/submit-partner-registration",
   upload.array("Documents"),
@@ -97,12 +95,13 @@ app.post(
       // Handle file uploads to Cloudinary
 
       const formData = req.body;
+      // console.log("🚀 ~ formData:", formData)
       const files = req.files;
+      console.log("🚀 ~ files:", files);
 
-
-       if(!files || !formData || files.length === 0){
-        return "No file"
-       }
+      if (!files || !formData || files.length === 0) {
+        return "No file";
+      }
       // console.log("🚀 ~ files:", files);
       const cloudinaryUrls = [];
       for (const file of files) {
@@ -114,16 +113,16 @@ app.post(
             use_filename: true,
             unique_filename: false,
             access_mode: "public",
-            flags: 'attachment',
-            timeout: 20000
+            flags: "attachment",
+            timeout: 20000,
           });
 
           cloudinaryUrls.push({
             originalName: file.originalname,
             url: result.secure_url,
             publicId: result.public_id,
-          })
-          console.log(cloudinaryUrls,",,,,,,,,,,,,,")
+          });
+          console.log(cloudinaryUrls, ",,,,,,,,,,,,,");
         } catch (uploadError) {
           continue; // Skip to next file
         }
@@ -156,11 +155,11 @@ app.post(
       };
 
       // Send email
-      if(cloudinaryUrls.length !== 0){
+      if (cloudinaryUrls.length !== 0) {
         transporter.sendMail(mailOptions, (error, info) => {
-          // console.log("🚀 ~ transporter.sendMail ~ info:", info)
+          console.log("🚀 ~ transporter.sendMail ~ info:", info);
           if (error) {
-            console.log("🚀 ~ transporter.sendMail ~ error:", error)
+            console.log("🚀 ~ transporter.sendMail ~ error:", error);
             console.error("Error sending email:", error);
             res.status(500).json({
               success: false,
@@ -185,6 +184,168 @@ app.post(
   }
 );
 
+app.post("/site_visit", async (req, res) => {
+  try {
+    // Handle file uploads to Cloudinary
+
+    const formData = req.body;
+    console.log("🚀 ~ formData:", formData);
+
+    // Generate HTML email content
+    const emailContent = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Visit Availability Notification</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 0 0 5px 5px;
+        }
+        .detail-row {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #555555;
+            display: inline-block;
+            width: 120px;
+        }
+        .status-available {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .status-unavailable {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Site Visit Availability Notification</h1>
+    </div>
+    
+    <div class="content">
+        <div class="detail-row">
+            <span class="detail-label">Date:</span>
+            <span>${new Date(formData.date).toLocaleDateString("en-US", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Company:</span>
+            <span>${formData.company || "Not provided"}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Email:</span>
+            <span>${formData.email || "Not provided"}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Availability:</span>
+            <span class="${
+              formData.available === "yes"
+                ? "status-available"
+                : "status-unavailable"
+            }">
+                ${formData.available === "yes" ? "Available" : "Not Available"}
+            </span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Notes:</span>
+            <span>${formData.notes || "No additional notes provided"}</span>
+        </div>
+        
+        <div class="detail-row">
+            <span class="detail-label">Submitted:</span>
+            <span>${new Date(formData.submittedAt).toLocaleString("en-US", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              timeZoneName: "short",
+            })}</span>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated message. Please do not reply directly to this email.</p>
+        <p>&copy; ${new Date().getFullYear()} ClearSky Services. All rights reserved.</p>
+    </div>
+</body>
+</html>
+`;
+
+    const mailOptions = {
+      from: `${formData.email || "no-reply@clearskyservices.co"}`,
+      to: "office@clearskyservices.co",
+      subject: `Site Visit Availability for ${
+        formData.company || "Unknown Company"
+      } on ${formData.date}`,
+      html: emailContent,
+    };
+
+    // Send email
+    transporter.sendMail(mailOptions, (error, info) => {
+      console.log("🚀 ~ transporter.sendMail ~ info:", info);
+      if (error) {
+        console.log("🚀 ~ transporter.sendMail ~ error:", error);
+        console.error("Error sending email:", error);
+        res.status(500).json({
+          success: false,
+          message: "Something went wrong while submitting the form.",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message:
+            "Thank you! Your partner registration has been submitted successfully.",
+        });
+      }
+    });
+  } catch (error) {
+    console.error("Error processing form:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error processing file uploads. Please try again.",
+    });
+  }
+});
 
 app.use(express.static(path.join(__dirname)));
 
