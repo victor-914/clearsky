@@ -7,7 +7,13 @@ const cloudinary = require("cloudinary").v2;
 const { Readable } = require("stream");
 const multer = require("multer");
 const axios = require("axios");
+const cors = require("cors")
 
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://clearskyservices.co'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type']
+}));
 
 
 // Configure Cloudinary
